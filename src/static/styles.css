@@ -665,17 +665,283 @@ footer {
   background-color: rgba(255, 255, 255, 0.3);
 }
 
+#manage-announcements-button {
+  background-color: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  border-radius: 5px;
+  transition: all 0.2s ease;
+  margin-right: 15px;
+}
+
+#manage-announcements-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.manage-icon {
+  font-size: 1.1rem;
+}
+
 .announcement-banner {
   background-color: var(--success);
   color: white;
   text-align: center;
   padding: 15px;
   font-weight: bold;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Announcements Management Modal */
+.announcements-modal-content {
+  max-width: 800px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.announcement-form-container {
+  background-color: var(--background);
+  padding: 20px;
+  border-radius: 5px;
+  margin-bottom: 25px;
+}
+
+.announcement-form-container h4 {
+  margin-bottom: 15px;
+  color: var(--primary);
+  font-size: 1.1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+#announcement-message {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  font-family: Arial, sans-serif;
+  resize: vertical;
+  min-height: 80px;
+}
+
+#announcement-message:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(26, 35, 126, 0.1);
+}
+
+.form-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+#save-announcement-button {
+  background-color: var(--primary);
+  flex: 1;
+}
+
+#cancel-edit-button {
+  background-color: var(--text-secondary);
+  flex: 0 0 auto;
+  padding: 10px 20px;
+}
+
+#cancel-edit-button:hover {
+  background-color: #555;
+}
+
+.announcements-list-container {
+  margin-top: 20px;
+}
+
+.announcements-list-container h4 {
+  margin-bottom: 15px;
+  color: var(--primary);
+  font-size: 1.1rem;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--border);
+}
+
+#announcements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.announcement-item {
+  background-color: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 15px;
+  transition: box-shadow 0.2s ease;
+}
+
+.announcement-item:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.announcement-message {
+  flex: 1;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--text-primary);
+  word-wrap: break-word;
+}
+
+.announcement-actions {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: 15px;
+}
+
+.announcement-actions button {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.edit-announcement-btn {
+  background-color: var(--primary);
+  color: white;
+}
+
+.edit-announcement-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.delete-announcement-btn {
+  background-color: var(--error);
+  color: white;
+}
+
+.delete-announcement-btn:hover {
+  background-color: #a00;
+}
+
+.announcement-metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+}
+
+.announcement-metadata span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.announcement-metadata strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.announcement-status {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-active {
+  background-color: var(--success-light);
+  color: var(--success);
+}
+
+.status-scheduled {
+  background-color: var(--info-light);
+  color: var(--info);
+}
+
+.status-expired {
+  background-color: var(--error-light);
+  color: var(--error);
+}
+
+#announcement-management-message {
+  margin-top: 15px;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .announcements-modal-content {
+    max-width: 95%;
+  }
+
+  .announcement-item-header {
+    flex-direction: column;
+  }
+
+  .announcement-actions {
+    margin-left: 0;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .announcement-actions button {
+    flex: 1;
+  }
+
+  .announcement-metadata {
+    flex-direction: column;
+    gap: 5px;
+  }
 }
 
 @media (max-width: 600px) {
   .announcement-banner {
     padding: 10px;
     font-size: 0.9rem;
+  }
+
+  #manage-announcements-button span:last-child {
+    display: none;
+  }
+
+  #manage-announcements-button {
+    padding: 8px;
+    min-width: auto;
   }
 }
