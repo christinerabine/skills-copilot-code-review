@@ -163,17 +163,17 @@ def update_announcement(
     
     if start_date:
         update_doc["start_date"] = start_date
-    else:
+    
+    # Build atomic update operation combining $set and optional $unset
+    update_query: Dict[str, Any] = {"$set": update_doc}
+    if not start_date:
         # Remove start_date if not provided
-        announcements_collection.update_one(
-            {"_id": obj_id},
-            {"$unset": {"start_date": ""}}
-        )
+        update_query["$unset"] = {"start_date": ""}
     
     # Update in database
     result = announcements_collection.update_one(
         {"_id": obj_id},
-        {"$set": update_doc}
+        update_query
     )
     
     if result.matched_count == 0:
