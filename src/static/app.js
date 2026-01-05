@@ -1144,6 +1144,44 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Validate date logic: ensure expiration is not before start (if provided)
+    // and that the expiration date is not in the past.
+    const expiration = new Date(expirationDate);
+    if (Number.isNaN(expiration.getTime())) {
+      showAnnouncementMessage("Invalid expiration date.", "error");
+      return;
+    }
+
+    let start = null;
+    if (startDate) {
+      start = new Date(startDate);
+      if (Number.isNaN(start.getTime())) {
+        showAnnouncementMessage("Invalid start date.", "error");
+        return;
+      }
+    }
+
+    // Normalize dates to ignore time-of-day when comparing with "today"
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const expirationDay = new Date(expiration.getTime());
+    expirationDay.setHours(0, 0, 0, 0);
+
+    if (expirationDay < today) {
+      showAnnouncementMessage(
+        "Expiration date cannot be in the past.",
+        "error"
+      );
+      return;
+    }
+
+    if (start && start > expiration) {
+      showAnnouncementMessage(
+        "Start date must be before or equal to the expiration date.",
+        "error"
+      );
+      return;
+    }
     // Build request URL
     let url = "";
     let method = "";
