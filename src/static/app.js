@@ -1182,28 +1182,38 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       return;
     }
-    // Build request URL
+    // Build request URL and body
     let url = "";
     let method = "";
 
     if (editingAnnouncementId) {
       // Update existing announcement
-      url = `/announcements/${editingAnnouncementId}?username=${encodeURIComponent(currentUser.username)}&message=${encodeURIComponent(message)}&expiration_date=${encodeURIComponent(expirationDate)}`;
-      if (startDate) {
-        url += `&start_date=${encodeURIComponent(startDate)}`;
-      }
+      url = `/announcements/${editingAnnouncementId}`;
       method = "PUT";
     } else {
       // Create new announcement
-      url = `/announcements?username=${encodeURIComponent(currentUser.username)}&message=${encodeURIComponent(message)}&expiration_date=${encodeURIComponent(expirationDate)}`;
-      if (startDate) {
-        url += `&start_date=${encodeURIComponent(startDate)}`;
-      }
+      url = `/announcements`;
       method = "POST";
     }
 
+    const announcementData = {
+      username: currentUser.username,
+      message: message,
+      expiration_date: expirationDate,
+    };
+
+    if (startDate) {
+      announcementData.start_date = startDate;
+    }
+
     try {
-      const response = await fetch(url, { method });
+      const response = await fetch(url, {
+        method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(announcementData),
+      });
 
       if (response.ok) {
         const successMessage = editingAnnouncementId
